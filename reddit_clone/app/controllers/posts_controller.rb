@@ -1,17 +1,25 @@
 class PostsController < ApplicationController
+  before_action :require_logged_in
 
   def new
     @post = Post.new
+    @subs = Sub.all
   end
 
   def create
+    # debugger
     @post = Post.new(post_params)
     @post.user_id = current_user.id
-
+    @post.sub_id = params[:post][:sub_ids].first.to_i
     # ??? HOW TO GET SUB_ID
 
     if @post.save
-      redirect_to post_url(@post)
+
+      params[:post][:sub_ids].each do |sub|
+        PostSub.create(post_id: @post.id, sub_id: sub)
+      end
+
+      redirect_to sub_url(@post.sub_id)
     else
       flash.now[:errors] = @post.errors.full_messages
       render :new
@@ -47,7 +55,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    pararms.require(:post).permit(:title, :url, :content)
+    params.require(:post).permit(:title, :url, :content, :sub_id, sub_ids: [])
   end
   
 end

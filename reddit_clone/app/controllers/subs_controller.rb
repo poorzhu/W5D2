@@ -1,5 +1,7 @@
 class SubsController < ApplicationController
 
+  before_action :require_logged_in
+
   def new
     @sub = Sub.new
   end
@@ -42,7 +44,7 @@ class SubsController < ApplicationController
   private
 
   def sub_params
-    pararms.require(:sub).permit(:title, :description)
+    params.require(:sub).permit(:title, :description)
   end
   
 end

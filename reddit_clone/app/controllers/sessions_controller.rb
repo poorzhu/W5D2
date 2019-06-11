@@ -6,7 +6,6 @@ class SessionsController < ApplicationController
     end
 
     def create
-      debugger
       @user = User.find_by_credentials(
         params[:user][:username],
         params[:user][:password]
@@ -14,9 +13,9 @@ class SessionsController < ApplicationController
       
       if @user
         login(@user)
-        redirect_to links_url
+        redirect_to subs_url
       else
-        flash.now[:errors] = @user.errors.full_messages
+        flash.now[:errors] = ["invalid credentials"]
         render :new
       end
     end
