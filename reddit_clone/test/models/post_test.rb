@@ -6,7 +6,7 @@
 #  title      :string           not null
 #  url        :string
 #  content    :text
-#  sub_id     :integer          not null
+#  sub_id     :integer
 #  user_id    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
